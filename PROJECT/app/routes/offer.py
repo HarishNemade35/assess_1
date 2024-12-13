@@ -17,6 +17,7 @@ async def create_offer(
     current_owner: Owner = Depends(get_current_owner),  # Assuming it returns an Owner object
 ):
     # Ensure expiry date is valid
+    """Creates a new offer, ensures expiry date is valid, and associates it with the owner."""
     current_time = datetime.now(timezone.utc)
     if offer.expiry_date < current_time:
         raise HTTPException(status_code=400, detail="Expiry date cannot be in the past")
@@ -41,6 +42,7 @@ async def update_offer(
     current_owner: Owner = Depends(get_current_owner),
 ):
     # Fetch the offer
+    """Updates an existing offer if it belongs to the authenticated owner."""
     offer = db.query(Offer).filter(Offer.id == offer_id).first()
 
     if not offer:
@@ -69,6 +71,7 @@ async def delete_offer(
     current_owner: Owner = Depends(get_current_owner),
 ):
     # Fetch the offer
+    """Deletes an offer if it belongs to the authenticated owner."""
     offer = db.query(Offer).filter(Offer.id == offer_id).first()
 
     if not offer:
@@ -84,5 +87,7 @@ async def delete_offer(
 
     db.refresh(offer)
     db.commit()
+
+    
 
     
