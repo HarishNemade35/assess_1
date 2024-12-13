@@ -87,9 +87,8 @@ Here's the file structure of the project
 ![fastapi screen](https://github.com/user-attachments/assets/203c4468-cf87-48e3-98db-417a26eb3694)
 
 
-
-User Endpoints
-1. User Registration
+# User Endpoints
+# 1. User Registration
 POST /user/register
 
 Request Body (JSON):
@@ -99,14 +98,15 @@ Copy code
   "username": "john_doe",
   "password": "password123"
 }
-Response:
+
+ Response:
 json
 Copy code
 {
   "id": 1,
   "username": "john_doe"
 }
-2. User Login
+# 2. User Login
 POST /user/login
 
 Request Body (JSON):
@@ -123,8 +123,9 @@ Copy code
   "access_token": "JWT_TOKEN",
   "token_type": "bearer"
 }
-Owner Endpoints
-3. Owner Registration
+
+# Owner Endpoints
+# 3. Owner Registration
 POST /owner/register
 
 Request Body (JSON):
@@ -141,7 +142,8 @@ Copy code
   "id": 1,
   "ownername": "store_owner"
 }
-4. Owner Login
+
+# 4. Owner Login
 POST /owner/login
 
 Request Body (JSON):
@@ -158,8 +160,8 @@ Copy code
   "access_token": "JWT_TOKEN",
   "token_type": "bearer"
 }
-Product Endpoints
-5. Create Product (Owner only)
+# Product Endpoints
+# 5. Create Product (Owner only)
 POST /product
 
 Request Body (JSON):
@@ -179,7 +181,8 @@ Copy code
   "price": 100,
   "stock": 50
 }
-6. Get All Products
+
+# 6. Get All Products
 GET /product/get_product
 
 Response:
@@ -199,7 +202,8 @@ Copy code
     "stock": 100
   }
 ]
-7. Delete Product (Owner only)
+
+# 7. Delete Product (Owner only)
 DELETE /product/{product_id}
 
 Response:
@@ -209,7 +213,7 @@ Copy code
   "message": "Product successfully deleted"
 }
 Order Endpoints
-8. Create Order
+# 8. Create Order
 POST /order
 
 Request Body (JSON):
@@ -232,7 +236,7 @@ Copy code
   "final_amount": 180,
   "created_at": "2024-12-13T10:00:00Z"
 }
-9. Get Order by ID
+# 9. Get Order by ID
 GET /order/{order_id}
 
 Response:
@@ -247,7 +251,7 @@ Copy code
   "final_amount": 180,
   "created_at": "2024-12-13T10:00:00Z"
 }
-10. Update Order Status
+# 10. Update Order Status
 PUT /order/{order_id}
 
 Request Body (JSON):
@@ -263,7 +267,7 @@ Copy code
   "order_id": 1,
   "status": "shipped"
 }
-11. Apply Offer
+# 11. Apply Offer
 POST /offer/{offer_code}/apply
 
 Request Body (JSON):
@@ -299,6 +303,8 @@ The response will contain a token that should be included in the Authorization h
 
 
 # Docker Setup (Optional)
+![image](https://github.com/user-attachments/assets/d589ba21-5256-42ea-bce8-3b8e819115d9)
+
 You can run the backend service with Docker by using the following steps:
 
 Step 1: Build the Docker Image
