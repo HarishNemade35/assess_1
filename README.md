@@ -1,7 +1,7 @@
-Online Grocery Shopping Backend
+# Online Grocery Shopping Backend
 
 
-Overview
+# Overview
 This project provides a backend service for an online grocery shopping platform, focusing on the order management system. The API allows users to place, view, and update orders, as well as apply discounts through offer codes. It also includes features for user and owner authentication, and managing products within the grocery store.
 
 The backend is built with FastAPI and uses PostgreSQL as the database.
@@ -73,59 +73,13 @@ http://localhost:8002/docs
 This interactive documentation will allow you to test the API endpoints directly.
 
 File Structure
-Here's the file structure of the project:
+Here's the file structure of the project
+
+
+![file str](https://github.com/user-attachments/assets/75506de3-ba15-4f1f-8190-75c453087f36)
 
 
 
-
-bash
-Copy code
-online-grocery-backend/
-│
-├── app/
-│   ├── __init__.py
-│   ├── core/
-│   │   ├── auth.py              # Authentication-related functions (JWT, password hashing, etc.)
-│   │   └── db.py                # Database connection and session management
-│   │
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── owner.py             # Owner model for managing owners in the system
-│   │   ├── user.py              # User model for managing users
-│   │   ├── order.py             # Order model for managing orders
-│   │   ├── product.py           # Product model for managing products
-│   │   └── offer.py             # Offer model for managing discount offers
-│   │
-│   ├── schemas/
-│   │   ├── __init__.py
-│   │   ├── user.py              # User-related Pydantic schemas (for validation)
-│   │   ├── owner.py             # Owner-related Pydantic schemas
-│   │   ├── order.py             # Order-related Pydantic schemas
-│   │   ├── product.py           # Product-related Pydantic schemas
-│   │   └── offer.py             # Offer-related Pydantic schemas
-│   │
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── user.py              # User API routes
-│   │   ├── order.py             # Order API routes
-│   │   ├── product.py           # Product API routes
-│   │   ├── offer.py             # Offer API routes
-│   │   └── owner.py             # Owner API routes
-│   │
-│   ├── templates/               # Jinja2 templates for rendering HTML
-│   │   └── index.html           # The homepage template (HTML)
-│   │
-│   ├── static/                  # Static files (e.g., CSS, JS, images)
-│   │   └── style.css            # Example CSS file
-│   │
-│   ├── main.py                  # FastAPI application entry point
-│
-├── .env                         # Environment variables (e.g., DB connection, JWT secrets)
-├── Dockerfile                   # Dockerfile for building the backend service container
-├── docker-compose.yml           # Docker Compose configuration for backend and DB
-├── requirements.txt             # Python dependencies for the project
-├── .gitignore                   # Git ignore file
-└── README.md                    # This file
 
 API Endpoints
 User Endpoints
@@ -320,19 +274,25 @@ Copy code
   "discount_amount": 20,
   "final_amount": 180
 }
-Validation and Business Logic
+
+
+# Validation and Business Logic
 Orders cannot be placed on public holidays or Sundays.
 The minimum order amount is ₹99.
 The maximum order amount is ₹4,999.
 Products ordered must be in stock.
 Offers are validated based on expiry, usage, and applicability to the product.
 Each offer can only be claimed once by a user.
-Authentication
+
+
+# Authentication
 The application uses JWT (JSON Web Tokens) for user authentication.
 
 To login, send a POST request to /user/login or /owner/login with the respective credentials.
 The response will contain a token that should be included in the Authorization header for subsequent requests.
-Docker Setup (Optional)
+
+
+# Docker Setup (Optional)
 You can run the backend service with Docker by using the following steps:
 
 Step 1: Build the Docker Image
@@ -347,11 +307,11 @@ Copy code
 docker-compose up --build
 This will start both the FastAPI backend and a PostgreSQL container.
 
-Testing
+# Testing
 Unit and integration tests are crucial for ensuring the functionality and reliability of the application. Add your tests in the tests/ directory. You can use pytest to run the tests:
 
 bash
 Copy code
 pytest
-Conclusion
+## Conclusion
 This backend API provides a full-featured solution for managing users, orders, products, and offers in an online grocery store. It is built with FastAPI, PostgreSQL, and JWT for secure authentication. You can further extend it by adding features like product reviews, inventory management, and user profiles.
