@@ -75,6 +75,9 @@ This interactive documentation will allow you to test the API endpoints directly
 File Structure
 Here's the file structure of the project:
 
+
+
+
 bash
 Copy code
 online-grocery-backend/
