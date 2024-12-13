@@ -6,7 +6,7 @@ from app.models.order import Order
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
-
+# Ensure the expiry date is timezone-aware, and also handle cases with no expiry date (if allowed)
 # Helper function to check if today is a public holiday or Sunday
 def is_public_holiday_or_sunday() -> bool:
     today = datetime.utcnow().date()
