@@ -81,7 +81,13 @@ Here's the file structure of the project
 
 
 
-API Endpoints
+# API Endpoints
+![front screen](https://github.com/user-attachments/assets/79586024-0eec-4e43-a56e-aa586d363d6d)
+
+![fastapi screen](https://github.com/user-attachments/assets/203c4468-cf87-48e3-98db-417a26eb3694)
+
+
+
 User Endpoints
 1. User Registration
 POST /user/register
