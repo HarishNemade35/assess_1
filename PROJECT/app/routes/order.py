@@ -21,6 +21,8 @@ async def get_all_product(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    """Returns a list of all products. Accessible only to authenticated users."""
+
     if not current_user:
         raise HTTPException(status_code=404, detail="Not authorized, this is only for Owner")
 
@@ -39,6 +41,7 @@ async def create_order(
 ):
     user_id = current_user.id
 
+    """Creates a new order, checks for public holidays, product availability, and applies any valid offer code."""
     # Check if today is a public holiday or Sunday
     if is_public_holiday_or_sunday():
         raise HTTPException(
@@ -46,6 +49,7 @@ async def create_order(
         )
 
     # Fetch the product and validate stock
+    # Validate product availability and order details
     product = db.query(Product).filter(Product.id == order_data.product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found.")
@@ -58,6 +62,7 @@ async def create_order(
     total_amount = product.price * order_data.quantity
 
     # Handle offer code if provided
+    # Calculate total and apply offer (if any)
     discount_amount = 0.0
     if order_data.offer_code:
         offer = is_offer_valid(order_data.offer_code, db, user_id)
@@ -70,6 +75,7 @@ async def create_order(
         discount_amount = calculate_discount(total_amount, offer)
 
     # Calculate final amount
+    # Create and save the order
     final_amount = total_amount - discount_amount
     if final_amount < 99 or final_amount > 4999:
         raise HTTPException(
@@ -77,6 +83,7 @@ async def create_order(
         )
 
     # Create the order
+    # Get an order by ID
     order = Order(
         user_id=user_id,
         product_id=order_data.product_id,
@@ -102,7 +109,7 @@ async def create_order(
     )
 
 
-
+# Get an order by ID
 @router.get("/order/{order_id}", response_model=OrderResponse)
 async def get_order(
     order_id: int,
@@ -110,6 +117,7 @@ async def get_order(
     current_user: User = Depends(get_current_user)
 ):
     # Fetch the order from the database
+    """Fetches a specific order by its ID. Accessible only to the user who created the order."""
     order = db.query(Order).filter(Order.id == order_id).first()
 
     # Check if the order exists
@@ -144,6 +152,7 @@ async def update_order(
     current_user: User = Depends(get_current_user)
 ):
     # Fetch the order
+    """Updates an existing order if the user is authorized."""
     order = db.query(Order).filter(Order.id == order_id).first()
 
     # Check if the order exists
@@ -157,6 +166,7 @@ async def update_order(
         )
 
     # Update product if it has changed
+    # Update order details (product and quantity)
     if order_data.product_id is not None and order_data.product_id != order.product_id:
         product = db.query(Product).filter(Product.id == order_data.product_id).first()
         if not product:
@@ -180,6 +190,7 @@ async def update_order(
         order.quantity = order_data.quantity
 
     # Commit the changes
+    # Commit and return updated order
     db.commit()
     db.refresh(order)
 
@@ -202,6 +213,7 @@ async def delete_order(
     current_user: User = Depends(get_current_user)
 ):
     # Fetch the order
+    """Deletes an order if it belongs to the authenticated user."""
     order = db.query(Order).filter(Order.id == order_id).first()
 
     # Check if the order exists
@@ -222,7 +234,7 @@ async def delete_order(
     
 
 
-
+# Add product to an existing order
 @router.post("/order/{order_id}/add-product", response_model=OrderResponse)
 async def add_product_to_order(
     order_id: int,
@@ -232,6 +244,7 @@ async def add_product_to_order(
     current_user: User = Depends(get_current_user),
 ):
     # Fetch the order by ID
+    """Adds a product to an existing order if stock is available and final amount is within limits."""
     order = db.query(Order).filter(Order.id == order_id).first()
 
     # Check if the order exists
@@ -282,7 +295,7 @@ async def add_product_to_order(
         order_id=order.id,
         user_id=order.user_id,
         product_id=product_id,
-        total_amount=order.total_amount,
+        total_amount=order.total_amount,# Assuming no discounts apply
         discount_amount=order.discount_amount,
         final_amount=order.final_amount,
         created_at=order.created_at.isoformat(),
